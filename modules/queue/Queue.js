@@ -9,51 +9,52 @@ class _Node {
 class Queue {
 	constructor() {
 		// Set initial data.
-		this.top=null;
-		this.bottom=null;
+		this.first=null;
+		this.last=null;
 	}
 
 	enqueue(data) {
 		// Add some data to the queue.
 
 		/* If the queue is empty, then the node will be the top of the stack */
-			if(this.top===null){
-				this.top=new _Node(data,null,null);
-				this.bottom=this.top;
-				return this.top;
+			if(this.last===null){
+				this.last=new _Node(data,null,null);
+				this.first=this.last;
+				return this.last;
 			}
 
 			/* If the queue already has something, then create a new node,
 			add data to the new node, and change the pointers */
-			const node=new _Node(data,this.top,null);
-			this.top.prev=node;
-			this.top=node;
+			const node=new _Node(data,null,this.last);
+			this.last.next=node;
+			this.last=node;
+			return this.last;
 	}
 
 	dequeue() {
 		// Remove some data from the queue.
 
 		/* Remove from the bottom of the queue and then update the pointers */
-			const node = this.bottom;
-			this.bottom = node.prev;
+			const node = this.first;
+			this.first = node.next;
 			return node.data;
 	}
 
 	show() {
 		// Return the next item in the queue.
-		return this.bottom;
+		return this.first;
 	}
 
 	all() {
 		// Return all items in the queue.
-		if(this.top===null){throw new Error('Empty Queue');}
-		let node=this.top;
-		let queue=[];
+		if(this.last===null){throw new Error('Empty Queue');}
+		let node=this.first;
+		let list=[];
 		while(node!==null){
-			queue.push(node.data);
+			list.push(node.data);
 			node=node.next;
 		}
-		return queue;
+		return list;
 	}
 }
 
